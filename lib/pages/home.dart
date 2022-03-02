@@ -10,25 +10,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future? currency;
-
   _fetchData() async {
     return await getData();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      currency = _fetchData();
-    });
-  }
-
   Future<void> _pullRefresh() async {
-    setState(() {
-      currency = _fetchData();
-      _showSnakBar();
-    });
+    setState(() {});
+    _showSnakBar();
   }
 
   @override
@@ -100,9 +88,11 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: FutureBuilder(
-                  future: currency,
+                  future: _fetchData(),
                   builder: (context, AsyncSnapshot snapshot) {
+                    print('object');
                     if (snapshot.hasData) {
+                      print('object2');
                       return RefreshIndicator(
                         onRefresh: _pullRefresh,
                         child: ListView.builder(
@@ -114,10 +104,35 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     } else if (snapshot.hasError) {
-                      return const Center(child: Text('Error'));
+                      return SizedBox(
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'عدم برقراری ارتباط با سرور !',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                primary: Colors.red,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(60)),
+                                ),
+                              ),
+                              onPressed: () => _pullRefresh(),
+                              icon: const Icon(Icons.refresh_outlined),
+                              label: const Text('تلاش مجدد'),
+                            )
+                          ],
+                        ),
+                      );
                     } else {
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator.adaptive(),
                       );
                     }
                   }),
@@ -147,20 +162,35 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text(
-            data.title.toString(),
-            style: Theme.of(context).textTheme.bodyText1,
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 1,
+            child: Text(
+              data.title.toString(),
+              style: Theme.of(context).textTheme.bodyText1,
+              textAlign: TextAlign.center,
+            ),
           ),
-          Text(
-            data.price.toString(),
-            style: Theme.of(context).textTheme.bodyText1,
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 1,
+            child: Text(
+              _getFarsiNumber(data.price.toString()),
+              style: Theme.of(context).textTheme.bodyText1,
+              textAlign: TextAlign.center,
+            ),
           ),
-          Text(
-            data.changes.toString(),
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: data.status == 'p' ? Colors.green : Colors.red,
-              fontSize: 13,
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 1,
+            child: Text(
+              _getFarsiNumber(data.changes.toString()),
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: data.status == 'p' ? Colors.green : Colors.red,
+                fontSize: 13,
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
         ],
@@ -175,4 +205,14 @@ class _HomePageState extends State<HomePage> {
         ),
         backgroundColor: Colors.grey[600],
       ));
+
+  String _getFarsiNumber(String num) {
+    List en = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    List fa = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    for (var element in en) {
+      num = num.replaceAll(element, fa[en.indexOf(element)]);
+    }
+
+    return num;
+  }
 }

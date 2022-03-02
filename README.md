@@ -1,7 +1,7 @@
 # Currency
 <img src="https://i.postimg.cc/3RPKjHWz/Screenshot-1646121511.png" img/>
 
-Currency price app made with flutter, all of the data come from API so that you can learn how to use API on flutter. There are one pages get data from API and set to list builder
+Currency price app made with flutter, all of the data come from API so that you can learn how to use API on flutter. There are one pages get data from API and set to list builder with update again data.
 
 > Package Used :
 > - http

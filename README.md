@@ -6,7 +6,6 @@ Currency price app made with flutter, all of the data come from API so that you 
 > Package Used :
 > - http
 
-
 ### License
 
     Copyright 2021 MrKafiri

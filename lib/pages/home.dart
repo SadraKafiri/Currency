@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    'dنام آزاد ارز',
+                    'نام آزاد ارز',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   Text(

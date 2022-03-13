@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    'نام ازاد ارز',
+                    'dنام آزاد ارز',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   Text(
@@ -90,9 +90,7 @@ class _HomePageState extends State<HomePage> {
               child: FutureBuilder(
                   future: _fetchData(),
                   builder: (context, AsyncSnapshot snapshot) {
-                    print('object');
                     if (snapshot.hasData) {
-                      print('object2');
                       return RefreshIndicator(
                         onRefresh: _pullRefresh,
                         child: ListView.builder(
